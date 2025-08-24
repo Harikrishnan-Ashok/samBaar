@@ -5,16 +5,24 @@ import (
 	"os"
 
 	"gioui.org/app"
+	"gioui.org/op"
 	"gioui.org/unit"
+	"github.com/Harikrishnan-Ashok/samBaar/ui/rootLayot"
 )
 
 // Start func
 func start(w *app.Window) error {
+
+	var ops op.Ops
 	for {
 		evt := w.Event()
 		switch typ := evt.(type) {
 		case app.DestroyEvent:
 			return typ.Err
+		case app.FrameEvent:
+			gtx := app.NewContext(&ops, typ)
+			rootlayot.RootLayout(gtx)
+			typ.Frame(gtx.Ops)
 		}
 	}
 }
