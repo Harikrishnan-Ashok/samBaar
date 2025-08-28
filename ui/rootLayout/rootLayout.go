@@ -1,5 +1,5 @@
-// Package rootlayot contains the diffrent sections in the basic layout of the app
-package rootlayot
+// Package rootlayout contains the diffrent sections in the basic layout of the app
+package rootlayout
 
 import (
 	"gioui.org/layout"
@@ -7,8 +7,7 @@ import (
 	"gioui.org/widget/material"
 )
 
-func RootLayout(gtx layout.Context) layout.Dimensions {
-	th := material.NewTheme()
+func RootLayout(gtx layout.Context, th *material.Theme) layout.Dimensions {
 	return layout.Flex{
 		Axis:    layout.Vertical,
 		Spacing: layout.SpaceStart,
