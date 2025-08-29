@@ -8,6 +8,8 @@ import (
 	"gioui.org/app"
 	"gioui.org/font"
 	"gioui.org/font/opentype"
+	"gioui.org/io/event"
+	"gioui.org/io/key"
 	"gioui.org/op"
 	"gioui.org/text"
 	"gioui.org/unit"
@@ -18,6 +20,7 @@ import (
 
 //go:embed Assets/fonts/DaddyTimeMonoNerdFontMono-Regular.ttf
 var nerdFontData []byte
+var keyInputTag struct{}
 
 func main() {
 	go func() {
@@ -39,11 +42,13 @@ func main() {
 		th := material.NewTheme()
 		th.Shaper = shaper
 
-		// Start the app
+		//decleartion stuff
 		store := &state.UIState{}
 		w := new(app.Window)
 		w.Option(app.Title("samBaar"))
 		w.Option(app.MaxSize(unit.Dp(380), unit.Dp(1080)))
+
+		// Start the app
 		if err := start(w, th, store); err != nil {
 			log.Fatal(err)
 		}
@@ -61,6 +66,22 @@ func start(w *app.Window, th *material.Theme, store *state.UIState) error {
 			return evt.Err
 		case app.FrameEvent:
 			gtx := app.NewContext(&ops, evt)
+
+			// Register interest in key events
+			event.Op(gtx.Ops, keyInputTag)
+
+			// Handle key input
+			for {
+				ev, ok := gtx.Event(key.Filter{Name: key.NameEscape})
+				if !ok {
+					break
+				}
+				if ke, ok := ev.(key.Event); ok && ke.State == key.Press {
+					os.Exit(0)
+				}
+			}
+
+			// Draw UI
 			ui.RootLayout(gtx, th, store)
 			evt.Frame(gtx.Ops)
 		}
