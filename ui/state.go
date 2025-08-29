@@ -1,4 +1,4 @@
-package rootlayout
+package ui
 
 import "gioui.org/widget"
 

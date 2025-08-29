@@ -1,10 +1,11 @@
-// Package rootlayout contains the diffrent sections in the basic layout of the app
-package rootlayout
+// Package ui contains the diffrent sections in the basic layout of the app
+package ui
 
 import (
 	"gioui.org/layout"
 	"gioui.org/unit"
 	"gioui.org/widget/material"
+	rootlayout "github.com/Harikrishnan-Ashok/samBaar/ui/rootLayout"
 )
 
 func RootLayout(gtx layout.Context, th *material.Theme) layout.Dimensions {
@@ -20,7 +21,7 @@ func RootLayout(gtx layout.Context, th *material.Theme) layout.Dimensions {
 				Bottom: unit.Dp(25),
 			}
 			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				return PowerControlSection(gtx, th)
+				return rootlayout.PowerControlSection(gtx, th)
 			})
 		}),
 	)

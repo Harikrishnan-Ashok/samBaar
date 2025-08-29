@@ -12,7 +12,7 @@ import (
 	"gioui.org/text"
 	"gioui.org/unit"
 	"gioui.org/widget/material"
-	"github.com/Harikrishnan-Ashok/samBaar/ui/rootLayout"
+	"github.com/Harikrishnan-Ashok/samBaar/ui"
 )
 
 //go:embed Assets/fonts/DaddyTimeMonoNerdFontMono-Regular.ttf
@@ -59,7 +59,7 @@ func start(w *app.Window, th *material.Theme) error {
 			return evt.Err
 		case app.FrameEvent:
 			gtx := app.NewContext(&ops, evt)
-			rootlayout.RootLayout(gtx, th)
+			ui.RootLayout(gtx, th)
 			evt.Frame(gtx.Ops)
 		}
 	}
