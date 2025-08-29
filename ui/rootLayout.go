@@ -5,10 +5,11 @@ import (
 	"gioui.org/layout"
 	"gioui.org/unit"
 	"gioui.org/widget/material"
-	rootlayout "github.com/Harikrishnan-Ashok/samBaar/ui/rootLayout"
+	"github.com/Harikrishnan-Ashok/samBaar/state"
+	"github.com/Harikrishnan-Ashok/samBaar/ui/sections"
 )
 
-func RootLayout(gtx layout.Context, th *material.Theme) layout.Dimensions {
+func RootLayout(gtx layout.Context, th *material.Theme, store *state.UIState) layout.Dimensions {
 	return layout.Flex{
 		Axis:    layout.Vertical,
 		Spacing: layout.SpaceStart,
@@ -21,7 +22,7 @@ func RootLayout(gtx layout.Context, th *material.Theme) layout.Dimensions {
 				Bottom: unit.Dp(25),
 			}
 			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				return rootlayout.PowerControlSection(gtx, th)
+				return sections.PowerControlSection(gtx, th, store)
 			})
 		}),
 	)

@@ -12,6 +12,7 @@ import (
 	"gioui.org/text"
 	"gioui.org/unit"
 	"gioui.org/widget/material"
+	"github.com/Harikrishnan-Ashok/samBaar/state"
 	"github.com/Harikrishnan-Ashok/samBaar/ui"
 )
 
@@ -39,10 +40,11 @@ func main() {
 		th.Shaper = shaper
 
 		// Start the app
+		store := &state.UIState{}
 		w := new(app.Window)
 		w.Option(app.Title("samBaar"))
 		w.Option(app.MaxSize(unit.Dp(380), unit.Dp(1080)))
-		if err := start(w, th); err != nil {
+		if err := start(w, th, store); err != nil {
 			log.Fatal(err)
 		}
 		os.Exit(0)
@@ -50,7 +52,7 @@ func main() {
 	app.Main()
 }
 
-func start(w *app.Window, th *material.Theme) error {
+func start(w *app.Window, th *material.Theme, store *state.UIState) error {
 	var ops op.Ops
 	for {
 		e := w.Event()
@@ -59,7 +61,7 @@ func start(w *app.Window, th *material.Theme) error {
 			return evt.Err
 		case app.FrameEvent:
 			gtx := app.NewContext(&ops, evt)
-			ui.RootLayout(gtx, th)
+			ui.RootLayout(gtx, th, store)
 			evt.Frame(gtx.Ops)
 		}
 	}
