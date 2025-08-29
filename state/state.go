@@ -9,6 +9,8 @@ type PowerControlState struct {
 	SuspendButton    widget.Clickable
 	HibernateButton  widget.Clickable
 	LockScreenButton widget.Clickable
+
+	ToolTipLabel string
 }
 
 type UIState struct {

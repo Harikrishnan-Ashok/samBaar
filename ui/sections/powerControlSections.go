@@ -56,25 +56,57 @@ func PowerControlSection(gtx layout.Context, th *material.Theme, store *state.UI
 		runCmd("swaylock")
 		os.Exit(0)
 	}
+
+	//for hovers
+	switch {
+	case store.PowerOffButton.Hovered():
+		store.ToolTipLabel = "Power Off"
+	case store.RebootButton.Hovered():
+		store.ToolTipLabel = "Reboot"
+	case store.SuspendButton.Hovered():
+		store.ToolTipLabel = "Suspend"
+	case store.HibernateButton.Hovered():
+		store.ToolTipLabel = "Hibernate"
+	case store.LockScreenButton.Hovered():
+		store.ToolTipLabel = "Lock Screen"
+	default:
+		store.ToolTipLabel = ""
+	}
+
 	return layout.Flex{
-		Axis:    layout.Horizontal,
-		Spacing: layout.SpaceAround,
+		Axis:    layout.Vertical,
+		Spacing: layout.SpaceBetween,
 	}.Layout(gtx,
-		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
-			return actionButton(gtx, th, &store.PowerOffButton, "⏻")
+		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			return layout.Inset{
+				Bottom: unit.Dp(10),
+				Left:   unit.Dp(4),
+			}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				return material.Label(th, unit.Sp(20), store.ToolTipLabel).Layout(gtx)
+			})
 		}),
-		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
-			return actionButton(gtx, th, &store.RebootButton, "󰜉")
-		}),
-		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
-			return actionButton(gtx, th, &store.SuspendButton, "󰒲")
-		}),
-		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
-			return actionButton(gtx, th, &store.HibernateButton, "")
-		}),
-		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
-			return actionButton(gtx, th, &store.LockScreenButton, "󰌾")
+		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			// Horizontal row of buttons
+			return layout.Flex{
+				Axis:    layout.Horizontal,
+				Spacing: layout.SpaceAround,
+			}.Layout(gtx,
+				layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+					return actionButton(gtx, th, &store.PowerOffButton, "⏻")
+				}),
+				layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+					return actionButton(gtx, th, &store.RebootButton, "󰜉")
+				}),
+				layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+					return actionButton(gtx, th, &store.SuspendButton, "󰒲")
+				}),
+				layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+					return actionButton(gtx, th, &store.HibernateButton, "")
+				}),
+				layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+					return actionButton(gtx, th, &store.LockScreenButton, "󰌾")
+				}),
+			)
 		}),
 	)
-
 }
