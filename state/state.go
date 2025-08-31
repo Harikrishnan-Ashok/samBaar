@@ -13,6 +13,13 @@ type PowerControlState struct {
 	ToolTipLabel string
 }
 
+type StatusControlState struct {
+	StatusBackground widget.Clickable
+
+	BatteryStatus string
+}
+
 type UIState struct {
 	PowerControlState
+	StatusControlState
 }

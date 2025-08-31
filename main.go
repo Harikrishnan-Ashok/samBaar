@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"log"
 	"os"
+	"os/exec"
 
 	"gioui.org/app"
 	"gioui.org/font"
@@ -46,7 +47,18 @@ func main() {
 		store := &state.UIState{}
 		w := new(app.Window)
 		w.Option(app.Title("samBaar"))
-		w.Option(app.MaxSize(unit.Dp(380), unit.Dp(1080)))
+		w.Option(app.MaxSize(unit.Dp(380), unit.Dp(620)))
+		w.Option(app.MinSize(unit.Dp(380), unit.Dp(620)))
+
+		go func() {
+			out, err := exec.Command("acpi", "-b").Output()
+			if err != nil {
+				store.BatteryStatus = "Err querying battery info"
+			} else {
+				store.BatteryStatus = string(out)
+			}
+			w.Invalidate()
+		}()
 
 		// Start the app
 		if err := start(w, th, store); err != nil {
@@ -82,7 +94,7 @@ func start(w *app.Window, th *material.Theme, store *state.UIState) error {
 			}
 
 			// Draw UI
-			ui.RootLayout(gtx, th, store)
+			ui.RootLayout(gtx, th, store, w)
 			evt.Frame(gtx.Ops)
 		}
 	}

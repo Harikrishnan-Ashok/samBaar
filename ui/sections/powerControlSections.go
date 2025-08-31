@@ -6,12 +6,17 @@ import (
 	"os"
 	"os/exec"
 
+	"gioui.org/app"
+	"gioui.org/io/event"
+	"gioui.org/io/key"
 	"gioui.org/layout"
 	"gioui.org/unit"
 	"gioui.org/widget"
 	"gioui.org/widget/material"
 	"github.com/Harikrishnan-Ashok/samBaar/state"
 )
+
+var powerControlTag struct{}
 
 // helper ro run command
 func runCmd(name string, args ...string) error {
@@ -34,7 +39,36 @@ func actionButton(gtx layout.Context, th *material.Theme, action *widget.Clickab
 	})
 }
 
-func PowerControlSection(gtx layout.Context, th *material.Theme, store *state.UIState) layout.Dimensions {
+func PowerControlSection(gtx layout.Context, th *material.Theme, store *state.UIState, w *app.Window) layout.Dimensions {
+	event.Op(gtx.Ops, powerControlTag)
+	gtx.Execute(key.FocusCmd{Tag: powerControlTag})
+
+	for {
+		ev, ok := gtx.Event(
+			key.FocusFilter{Target: powerControlTag},
+			key.Filter{Focus: powerControlTag, Name: key.NameLeftArrow},
+			key.Filter{Focus: powerControlTag, Name: key.NameRightArrow},
+		)
+		if !ok {
+			break
+		}
+		ke, ok := ev.(key.Event)
+		if !ok {
+			continue
+		}
+		if ke.State == key.Press {
+			switch ke.Name {
+			case key.NameLeftArrow:
+				store.ToolTipLabel = "Left"
+				fmt.Println("LeftClicked")
+				w.Invalidate()
+			case key.NameRightArrow:
+				store.ToolTipLabel = "Right"
+				fmt.Println("RightClicked")
+				w.Invalidate()
+			}
+		}
+	}
 
 	if store.PowerOffButton.Clicked(gtx) {
 		runCmd("systemctl", "poweroff")
@@ -79,10 +113,10 @@ func PowerControlSection(gtx layout.Context, th *material.Theme, store *state.UI
 	}.Layout(gtx,
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 			return layout.Inset{
-				Bottom: unit.Dp(10),
+				Bottom: unit.Dp(5),
 				Left:   unit.Dp(4),
 			}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				return material.Label(th, unit.Sp(20), store.ToolTipLabel).Layout(gtx)
+				return material.Label(th, unit.Sp(15), store.ToolTipLabel).Layout(gtx)
 			})
 		}),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
