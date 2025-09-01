@@ -18,10 +18,6 @@ Before you begin, make sure you have the following:
 
 To compile the application into an executable named `sambaar`, run the following command from the project directory:
 
-```bash
-go build -o sambaar main.go
-```
-
 ---
 
 ## Installing
@@ -30,13 +26,11 @@ go build -o sambaar main.go
 
 Move the compiled binary to a directory in your system `PATH`:
 
-```bash
-sudo mv sambaar /usr/local/bin/
-```
-
 Then, ensure it has the correct permissions:
 
 ```bash
+go build -o sambaar main.go
+sudo mv sambaar /usr/local/bin/
 chmod +x /usr/local/bin/sambaar
 ```
 
