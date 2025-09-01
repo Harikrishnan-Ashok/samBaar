@@ -16,7 +16,10 @@ type PowerControlState struct {
 type StatusControlState struct {
 	StatusBackground widget.Clickable
 
-	BatteryStatus string
+	BatteryStatus   string
+	TimeStatus      string
+	WifiStatus      string
+	BluetoothStatus string
 }
 
 type UIState struct {
