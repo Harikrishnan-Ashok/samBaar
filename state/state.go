@@ -18,6 +18,7 @@ type StatusControlState struct {
 
 	BatteryStatus   string
 	TimeStatus      string
+	DateStatus      string
 	WifiStatus      string
 	BluetoothStatus string
 }

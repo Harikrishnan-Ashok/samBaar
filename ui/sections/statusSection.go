@@ -36,7 +36,7 @@ func StatusControlSection(gtx layout.Context, th *material.Theme, store *state.U
 					btn := material.Button(th, &store.StatusBackground, store.TimeStatus)
 					btn.TextSize = unit.Sp(40)
 					btn.Inset = layout.UniformInset(unit.Dp(4))
-					btn.Inset.Top = unit.Dp(25)
+					btn.Inset.Top = unit.Dp(15)
 					return btn.Layout(gtx)
 				}),
 

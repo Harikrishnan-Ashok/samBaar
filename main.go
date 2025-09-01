@@ -107,6 +107,12 @@ func main() {
 				}
 				store.BluetoothStatus = status
 			}
+			out, err = exec.Command("date", "+ %d - %b - %Y  %A").Output()
+			if err != nil {
+				store.DateStatus = "Err getting date"
+			} else {
+				store.DateStatus = string(out)
+			}
 
 			// Trigger redraw
 			w.Invalidate()

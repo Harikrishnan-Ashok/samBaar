@@ -12,26 +12,40 @@ import (
 
 func RootLayout(gtx layout.Context, th *material.Theme, store *state.UIState, w *app.Window) layout.Dimensions {
 	margin := layout.Inset{
-		Top:    unit.Dp(25),
-		Left:   unit.Dp(25),
-		Right:  unit.Dp(25),
-		Bottom: unit.Dp(25),
+		Left:  unit.Dp(15),
+		Right: unit.Dp(15),
 	}
 
 	return layout.Flex{
 		Axis:    layout.Vertical,
-		Spacing: layout.SpaceAround,
+		Spacing: layout.SpaceBetween,
 	}.Layout(gtx,
-		layout.Flexed(3, func(gtx layout.Context) layout.Dimensions {
+		layout.Flexed(2.4, func(gtx layout.Context) layout.Dimensions {
 			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				return sections.StatusControlSection(gtx, th, store)
+				return layout.Inset{
+					Top: unit.Dp(15),
+				}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+					return sections.StatusControlSection(gtx, th, store)
+				})
 			})
-		}), layout.Flexed(4.5, func(gtx layout.Context) layout.Dimensions {
+		}), layout.Flexed(1.8, func(gtx layout.Context) layout.Dimensions {
+			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				return layout.Inset{
+					Top: unit.Dp(15),
+				}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+					return sections.SystemControlSection(gtx, th, store)
+				})
+			})
+		}), layout.Flexed(4, func(gtx layout.Context) layout.Dimensions {
 			return layout.Spacer{}.Layout(gtx)
 		}),
-		layout.Flexed(2, func(gtx layout.Context) layout.Dimensions {
+		layout.Flexed(1.3, func(gtx layout.Context) layout.Dimensions {
 			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				return sections.PowerControlSection(gtx, th, store, w)
+				return layout.Inset{
+					Bottom: unit.Dp(15),
+				}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+					return sections.PowerControlSection(gtx, th, store, w)
+				})
 			})
 		}),
 	)
