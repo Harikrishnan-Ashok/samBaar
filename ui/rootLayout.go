@@ -31,12 +31,18 @@ func RootLayout(gtx layout.Context, th *material.Theme, store *state.UIState, w 
 		}), layout.Flexed(1.8, func(gtx layout.Context) layout.Dimensions {
 			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				return layout.Inset{
-					Top: unit.Dp(15),
+					Top: unit.Dp(10),
 				}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 					return sections.SystemControlSection(gtx, th, store)
 				})
 			})
-		}), layout.Flexed(4, func(gtx layout.Context) layout.Dimensions {
+		}), layout.Flexed(2, func(gtx layout.Context) layout.Dimensions {
+			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				return sections.UtilsSection(gtx, th, store)
+			})
+		}),
+
+		layout.Flexed(2, func(gtx layout.Context) layout.Dimensions {
 			return layout.Spacer{}.Layout(gtx)
 		}),
 		layout.Flexed(1.3, func(gtx layout.Context) layout.Dimensions {

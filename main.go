@@ -4,8 +4,6 @@ import (
 	_ "embed"
 	"log"
 	"os"
-	"os/exec"
-	"strings"
 
 	"gioui.org/app"
 	"gioui.org/font"
@@ -16,6 +14,7 @@ import (
 	"gioui.org/text"
 	"gioui.org/unit"
 	"gioui.org/widget/material"
+	"github.com/Harikrishnan-Ashok/samBaar/helpers"
 	"github.com/Harikrishnan-Ashok/samBaar/state"
 	"github.com/Harikrishnan-Ashok/samBaar/ui"
 )
@@ -52,67 +51,12 @@ func main() {
 		w.Option(app.MinSize(unit.Dp(380), unit.Dp(620)))
 
 		go func() {
-			// Battery status
-			out, err := exec.Command("acpi", "-b").Output()
-			if err != nil {
-				store.BatteryStatus = "Err querying battery info"
-			} else {
-				store.BatteryStatus = strings.TrimSpace(string(out))
-			}
 
-			// Time status
-			out, err = exec.Command("date", "+%H:%M").Output()
-			if err != nil {
-				store.TimeStatus = "Err querying time info"
-			} else {
-				store.TimeStatus = strings.TrimSpace(string(out))
-			}
-
-			// WiFi status
-			out, err = exec.Command("nmcli", "radio", "wifi").Output()
-			if err != nil {
-				store.WifiStatus = "Err querying WiFi"
-			} else {
-				wifiStatus := strings.TrimSpace(string(out))
-				switch wifiStatus {
-				case "enabled":
-					store.WifiStatus = "WiFi Up"
-				case "disabled":
-					store.WifiStatus = " Down"
-				default:
-					store.WifiStatus = "Unknown: " + wifiStatus
-				}
-			}
-
-			// Bluetooth status
-			out, err = exec.Command("bluetoothctl", "show").Output()
-			if err != nil {
-				store.BluetoothStatus = "Err querying Bluetooth"
-			} else {
-				lines := strings.Split(string(out), "\n")
-				status := "Unknown"
-				for _, line := range lines {
-					line = strings.TrimSpace(line)
-					if strings.HasPrefix(line, "Powered:") {
-						parts := strings.Fields(line)
-						if len(parts) == 2 {
-							if strings.ToLower(parts[1]) == "yes" {
-								status = "Bl| Up "
-							} else if strings.ToLower(parts[1]) == "no" {
-								status = "Bl|Down"
-							}
-						}
-						break
-					}
-				}
-				store.BluetoothStatus = status
-			}
-			out, err = exec.Command("date", "+ %d - %b - %Y  %A").Output()
-			if err != nil {
-				store.DateStatus = "Err getting date"
-			} else {
-				store.DateStatus = string(out)
-			}
+			//Helper Functions to query system stuff
+			helpers.GetBatteryStatus(store)
+			helpers.GetTimeStatus(store)
+			helpers.GetBluetoothStatus(store)
+			helpers.GetNetworkStatus(store)
 
 			// Trigger redraw
 			w.Invalidate()

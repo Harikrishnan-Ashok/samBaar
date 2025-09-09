@@ -12,7 +12,7 @@ func SystemControlSection(gtx layout.Context, th *material.Theme, store *state.U
 		Axis:    layout.Vertical,
 		Spacing: layout.SpaceBetween,
 	}.Layout(gtx,
-		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+		layout.Flexed(0.5, func(gtx layout.Context) layout.Dimensions {
 			return layout.Inset{
 				Bottom: unit.Dp(10),
 			}.
@@ -32,13 +32,15 @@ func SystemControlSection(gtx layout.Context, th *material.Theme, store *state.U
 							return layout.Inset{
 								Left: unit.Dp(5),
 							}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-								return material.Button(th, &store.StatusBackground, "Eth").Layout(gtx)
+								btn := material.Button(th, &store.StatusBackground, "Eth")
+								btn.Background = store.EthernetStatus.BgColor
+								return btn.Layout(gtx)
 							})
 						}),
 					)
 				})
 		}),
-		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+		layout.Flexed(0.6, func(gtx layout.Context) layout.Dimensions {
 			return layout.Inset{
 				Bottom: unit.Dp(10),
 			}.

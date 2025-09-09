@@ -1,7 +1,11 @@
 // Package state
 package state
 
-import "gioui.org/widget"
+import (
+	"image/color"
+
+	"gioui.org/widget"
+)
 
 type PowerControlState struct {
 	PowerOffButton   widget.Clickable
@@ -13,17 +17,36 @@ type PowerControlState struct {
 	ToolTipLabel string
 }
 
-type StatusControlState struct {
-	StatusBackground widget.Clickable
+// Status ...  for status and background color
+type Status struct {
+	Value   string
+	BgColor color.NRGBA
+}
 
-	BatteryStatus   string
-	TimeStatus      string
+type BatteryStatus struct {
+	BatteryValue  string
+	AdapterStatus string
+	RemainingTime string
+	BgColor       color.NRGBA
+}
+
+type StatusControlState struct {
+	TimeStatus string
+	BatteryStatus
 	DateStatus      string
-	WifiStatus      string
-	BluetoothStatus string
+	WifiStatus      Status
+	BluetoothStatus Status
+	EthernetStatus  Status
+}
+
+type UtilsControlState struct {
 }
 
 type UIState struct {
 	PowerControlState
 	StatusControlState
+	UtilsControlState
+
+	StatusBackground widget.Clickable
+	StatusForeground widget.Clickable
 }

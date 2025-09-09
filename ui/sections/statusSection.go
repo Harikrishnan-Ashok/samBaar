@@ -5,6 +5,7 @@ import (
 	"gioui.org/unit"
 	"gioui.org/widget/material"
 	"github.com/Harikrishnan-Ashok/samBaar/state"
+	"github.com/Harikrishnan-Ashok/samBaar/theme"
 )
 
 func StatusControlSection(gtx layout.Context, th *material.Theme, store *state.UIState) layout.Dimensions {
@@ -18,9 +19,41 @@ func StatusControlSection(gtx layout.Context, th *material.Theme, store *state.U
 			return layout.Inset{
 				Right: unit.Dp(10),
 			}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				btn := material.Button(th, &store.StatusBackground, store.BatteryStatus)
-				btn.Inset = layout.UniformInset(unit.Dp(4))
-				return btn.Layout(gtx)
+				return layout.Stack{}.Layout(gtx,
+					layout.Stacked(func(gtx layout.Context) layout.Dimensions {
+						gtx.Constraints.Min = gtx.Constraints.Max
+						btn := material.Button(th, &store.StatusBackground, "")
+						btn.Background = store.BgColor
+						return btn.Layout(gtx)
+					}),
+					layout.Stacked(func(gtx layout.Context) layout.Dimensions {
+						return layout.Flex{
+							Axis:    layout.Vertical,
+							Spacing: layout.SpaceSides,
+						}.Layout(gtx,
+							layout.Flexed(1.8, func(gtx layout.Context) layout.Dimensions {
+								btn := material.Button(th, &store.StatusBackground, store.BatteryValue)
+								btn.TextSize = unit.Sp(35)
+								btn.Background = theme.DarkTheme.Colors.TrasnparentBg
+								btn.Inset = layout.UniformInset(unit.Dp(5))
+								return btn.Layout(gtx)
+							}),
+							layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+								btn := material.Button(th, &store.StatusBackground, store.AdapterStatus)
+								btn.Background = theme.DarkTheme.Colors.TrasnparentBg
+								btn.TextSize = unit.Sp(20)
+								btn.Inset = layout.UniformInset(unit.Dp(5))
+								return btn.Layout(gtx)
+							}),
+							layout.Flexed(1.2, func(gtx layout.Context) layout.Dimensions {
+								btn := material.Button(th, &store.StatusBackground, store.RemainingTime)
+								btn.Background = theme.DarkTheme.Colors.TrasnparentBg
+								btn.Inset = layout.UniformInset(unit.Dp(5))
+								return btn.Layout(gtx)
+							}),
+						)
+					}),
+				)
 			})
 		}),
 
@@ -47,15 +80,25 @@ func StatusControlSection(gtx layout.Context, th *material.Theme, store *state.U
 					}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 						return layout.Flex{
 							Axis:    layout.Horizontal,
-							Spacing: layout.SpaceBetween,
+							Spacing: layout.SpaceAround,
 						}.Layout(gtx,
-							layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-								btn := material.Button(th, &store.StatusBackground, store.WifiStatus)
-								return btn.Layout(gtx)
+							layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+								return layout.Inset{
+									Right: unit.Dp(5),
+								}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+									btn := material.Button(th, &store.StatusBackground, store.WifiStatus.Value)
+									btn.Background = store.WifiStatus.BgColor
+									return btn.Layout(gtx)
+								})
 							}),
-							layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-								btn := material.Button(th, &store.StatusBackground, store.BluetoothStatus)
-								return btn.Layout(gtx)
+							layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+								return layout.Inset{
+									Left: unit.Dp(5),
+								}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+									btn := material.Button(th, &store.StatusBackground, store.BluetoothStatus.Value)
+									btn.Background = store.BluetoothStatus.BgColor
+									return btn.Layout(gtx)
+								})
 							}),
 						)
 					})
