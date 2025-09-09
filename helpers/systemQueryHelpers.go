@@ -19,7 +19,11 @@ func GetBatteryStatus(store *state.UIState) {
 		store.BgColor = theme.DarkTheme.Colors.WarningColor
 		part := strings.Split(string(out), ",")
 		store.BatteryValue = strings.TrimSpace(part[1])
-		store.RemainingTime = strings.Fields(strings.TrimSpace(part[2]))[0]
+		if strings.TrimSpace(part[1]) == "100%" {
+			store.RemainingTime = "Nil"
+		} else {
+			store.RemainingTime = strings.Fields(strings.TrimSpace(part[2]))[0]
+		}
 		split := strings.Split(part[0], ":")
 		if len(split) >= 2 {
 			store.AdapterStatus = strings.TrimSpace(split[1])
