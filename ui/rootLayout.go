@@ -28,7 +28,6 @@ func RootLayout(gtx layout.Context, th *material.Theme, store *state.UIState, w 
 					return sections.StatusControlSection(gtx, th, store)
 				})
 			})
-			// return layout.Spacer{}.Layout(gtx)
 		}), layout.Flexed(1.8, func(gtx layout.Context) layout.Dimensions {
 			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				return layout.Inset{
@@ -41,21 +40,19 @@ func RootLayout(gtx layout.Context, th *material.Theme, store *state.UIState, w 
 			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				return sections.UtilsSection(gtx, th, store)
 			})
-			// return layout.Spacer{}.Layout(gtx)
 		}),
 
 		layout.Flexed(2, func(gtx layout.Context) layout.Dimensions {
-			// 	return layout.Spacer{}.Layout(gtx)
-			// }),
-			// layout.Flexed(1.3, func(gtx layout.Context) layout.Dimensions {
-			// 	return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-			// 		return layout.Inset{
-			// 			Bottom: unit.Dp(15),
-			// 		}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-			// 			return sections.PowerControlSection(gtx, th, store, w)
-			// 		})
-			// 	})
 			return layout.Spacer{}.Layout(gtx)
+		}),
+		layout.Flexed(1.3, func(gtx layout.Context) layout.Dimensions {
+			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				return layout.Inset{
+					Bottom: unit.Dp(15),
+				}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+					return sections.PowerControlSection(gtx, th, store, w)
+				})
+			})
 		}),
 	)
 }
