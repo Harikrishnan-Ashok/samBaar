@@ -25,14 +25,14 @@ func SystemControlSection(gtx layout.Context, th *material.Theme, store *state.U
 							return layout.Inset{
 								Right: unit.Dp(5),
 							}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-								return material.Button(th, &store.StatusBackground, store.DateStatus).Layout(gtx)
+								return material.Button(th, &store.DateStatus.Button, store.DateStatus.Value).Layout(gtx)
 							})
 						}),
 						layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
 							return layout.Inset{
 								Left: unit.Dp(5),
 							}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-								btn := material.Button(th, &store.StatusBackground, "Eth")
+								btn := material.Button(th, &store.EthernetStatus.Button, "Eth")
 								btn.Background = store.EthernetStatus.BgColor
 								return btn.Layout(gtx)
 							})
@@ -53,7 +53,7 @@ func SystemControlSection(gtx layout.Context, th *material.Theme, store *state.U
 							return layout.Inset{
 								Right: unit.Dp(8),
 							}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-								return material.Button(th, &store.StatusBackground, "Vo +/-").Layout(gtx)
+								return material.Button(th, &store.VolStatus.Button, "Vo +/-").Layout(gtx)
 							})
 						}),
 						layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
@@ -61,7 +61,7 @@ func SystemControlSection(gtx layout.Context, th *material.Theme, store *state.U
 								Right: unit.Dp(5),
 								Left:  unit.Dp(2),
 							}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-								return material.Button(th, &store.StatusBackground, "Br +/-").Layout(gtx)
+								return material.Button(th, &store.Brightness.Button, "Br +/-").Layout(gtx)
 							})
 						}),
 
@@ -69,7 +69,7 @@ func SystemControlSection(gtx layout.Context, th *material.Theme, store *state.U
 							return layout.Inset{
 								Left: unit.Dp(5),
 							}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-								return material.Button(th, &store.StatusBackground, "Change Sound Mode").Layout(gtx)
+								return material.Button(th, &store.SoundMode.Button, "Change Sound Mode").Layout(gtx)
 							})
 						}),
 					)

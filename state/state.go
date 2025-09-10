@@ -19,34 +19,41 @@ type PowerControlState struct {
 
 // Status ...  for status and background color
 type Status struct {
+	Button  widget.Clickable
 	Value   string
 	BgColor color.NRGBA
 }
 
 type BatteryStatus struct {
-	BatteryValue  string
-	AdapterStatus string
-	RemainingTime string
+	BatteryValue  Status
+	AdapterStatus Status
+	RemainingTime Status
 	BgColor       color.NRGBA
+	StatusButton  widget.Clickable
 }
 
 type StatusControlState struct {
-	TimeStatus string
+	TimeStatus Status
 	BatteryStatus
-	DateStatus      string
+	DateStatus      Status
 	WifiStatus      Status
 	BluetoothStatus Status
 	EthernetStatus  Status
+	VolStatus       Status
+	Brightness      Status
+	SoundMode       Status
 }
 
 type UtilsControlState struct {
+	TimerStartButton Status
+	TimerStatus      Status
+	NextWallpaper    widget.Clickable
+	PrevWallpaper    widget.Clickable
+	WallpaperStatus  widget.Clickable
 }
 
 type UIState struct {
 	PowerControlState
 	StatusControlState
 	UtilsControlState
-
-	StatusBackground widget.Clickable
-	StatusForeground widget.Clickable
 }

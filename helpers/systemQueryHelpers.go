@@ -14,19 +14,19 @@ import (
 func GetBatteryStatus(store *state.UIState) {
 	out, err := exec.Command("acpi", "-b").Output()
 	if err != nil {
-		store.BatteryValue = "Err"
+		store.BatteryValue.Value = "Err"
 	} else {
 		store.BgColor = theme.DarkTheme.Colors.WarningColor
 		part := strings.Split(string(out), ",")
-		store.BatteryValue = strings.TrimSpace(part[1])
+		store.BatteryValue.Value = strings.TrimSpace(part[1])
 		if strings.TrimSpace(part[1]) == "100%" {
-			store.RemainingTime = "Nil"
+			store.RemainingTime.Value = "Nil"
 		} else {
-			store.RemainingTime = strings.Fields(strings.TrimSpace(part[2]))[0]
+			store.RemainingTime.Value = strings.Fields(strings.TrimSpace(part[2]))[0]
 		}
 		split := strings.Split(part[0], ":")
 		if len(split) >= 2 {
-			store.AdapterStatus = strings.TrimSpace(split[1])
+			store.AdapterStatus.Value = strings.TrimSpace(split[1])
 		}
 
 	}
@@ -36,9 +36,9 @@ func GetBatteryStatus(store *state.UIState) {
 func GetTimeStatus(store *state.UIState) {
 	out, err := exec.Command("date", "+%H:%M").Output()
 	if err != nil {
-		store.TimeStatus = "Err querying time info"
+		store.TimeStatus.Value = "Err querying time info"
 	} else {
-		store.TimeStatus = strings.TrimSpace(string(out))
+		store.TimeStatus.Value = strings.TrimSpace(string(out))
 	}
 
 }
@@ -71,9 +71,9 @@ func GetBluetoothStatus(store *state.UIState) {
 	}
 	out, err = exec.Command("date", "+ %d - %b - %Y  %A").Output()
 	if err != nil {
-		store.DateStatus = "Err getting date"
+		store.DateStatus.Value = "Err getting date"
 	} else {
-		store.DateStatus = string(out)
+		store.DateStatus.Value = string(out)
 	}
 }
 
