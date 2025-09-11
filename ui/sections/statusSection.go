@@ -9,6 +9,31 @@ import (
 )
 
 func StatusControlSection(gtx layout.Context, th *material.Theme, store *state.UIState) layout.Dimensions {
+
+	switch {
+	case store.WifiStatus.Button.Clicked(gtx):
+		if store.WifiStatus.Value == "enabled" {
+			store.WifiStatus.Value = "disabled"
+			store.WifiStatus.BgColor = theme.DarkTheme.Colors.DisabledColor
+			go runCmd("nmcli", "radio", "wifi", "off")
+		} else {
+			store.WifiStatus.Value = "enabled"
+			store.WifiStatus.BgColor = theme.DarkTheme.Colors.EnabledColor
+			go runCmd("nmcli", "radio", "wifi", "on")
+		}
+
+	case store.BluetoothStatus.Button.Clicked(gtx):
+		if store.BluetoothStatus.Value == "enabled" {
+			store.BluetoothStatus.Value = "disabled"
+			store.BluetoothStatus.BgColor = theme.DarkTheme.Colors.DisabledColor
+			go runCmd("bluetoothctl", "power", "off")
+		} else {
+			store.BluetoothStatus.Value = "enabled"
+			store.BluetoothStatus.BgColor = theme.DarkTheme.Colors.EnabledColor
+			go runCmd("bluetoothctl", "power", "on")
+		}
+	}
+
 	return layout.Flex{
 		Axis:    layout.Horizontal,
 		Spacing: layout.SpaceBetween,
@@ -86,7 +111,7 @@ func StatusControlSection(gtx layout.Context, th *material.Theme, store *state.U
 								return layout.Inset{
 									Right: unit.Dp(5),
 								}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-									btn := material.Button(th, &store.WifiStatus.Button, store.WifiStatus.Value)
+									btn := material.Button(th, &store.WifiStatus.Button, "Wifi")
 									btn.Background = store.WifiStatus.BgColor
 									return btn.Layout(gtx)
 								})
@@ -95,7 +120,7 @@ func StatusControlSection(gtx layout.Context, th *material.Theme, store *state.U
 								return layout.Inset{
 									Left: unit.Dp(5),
 								}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-									btn := material.Button(th, &store.BluetoothStatus.Button, store.BluetoothStatus.Value)
+									btn := material.Button(th, &store.BluetoothStatus.Button, "Blue")
 									btn.Background = store.BluetoothStatus.BgColor
 									return btn.Layout(gtx)
 								})

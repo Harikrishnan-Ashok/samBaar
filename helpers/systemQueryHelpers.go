@@ -57,10 +57,10 @@ func GetBluetoothStatus(store *state.UIState) {
 				parts := strings.Fields(line)
 				if len(parts) == 2 {
 					if strings.ToLower(parts[1]) == "yes" {
-						status = "Blue"
+						status = "enabled"
 						store.BluetoothStatus.BgColor = theme.DarkTheme.Colors.EnabledColor
 					} else if strings.ToLower(parts[1]) == "no" {
-						status = "Blue"
+						status = "disabled"
 						store.BluetoothStatus.BgColor = theme.DarkTheme.Colors.DisabledColor
 					}
 				}
@@ -96,20 +96,40 @@ func GetNetworkStatus(store *state.UIState) {
 		ifaceState := parts[1]
 		switch ifaceType {
 		case "wifi":
-			store.WifiStatus.Value = "WiFi"
-			if ifaceState != "conected" {
-				store.WifiStatus.BgColor = theme.DarkTheme.Colors.EnabledColor
-			} else {
+			if ifaceState != "connected" {
 				store.WifiStatus.BgColor = theme.DarkTheme.Colors.DisabledColor
+				store.WifiStatus.Value = "disabled"
+			} else {
+				store.WifiStatus.BgColor = theme.DarkTheme.Colors.EnabledColor
+				store.WifiStatus.Value = "enabled"
 			}
 		case "ethernet":
-			store.WifiStatus.Value = "WiFi"
-			if ifaceState != "conected" {
-				store.EthernetStatus.BgColor = theme.DarkTheme.Colors.EnabledColor
-			} else {
+			if ifaceState != "connected" {
 				store.EthernetStatus.BgColor = theme.DarkTheme.Colors.DisabledColor
+				store.EthernetStatus.Value = "enabled"
+			} else {
+				store.EthernetStatus.BgColor = theme.DarkTheme.Colors.EnabledColor
+				store.EthernetStatus.Value = "disabled"
 			}
 
 		}
+	}
+}
+
+func GetBrightnessStatus(store *state.UIState) {
+	out, err := exec.Command("brightnessctl", "-m").Output()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		currBrightness := strings.Split(string(out), ",")[3]
+		store.Brightness.Value = currBrightness
+	}
+}
+func GetVolumeStatus(store *state.UIState) {
+	out, err := exec.Command("pamixer", "--get-volume").Output()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		store.VolStatus.Value = string(out)
 	}
 }

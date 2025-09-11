@@ -8,7 +8,6 @@ import (
 	"gioui.org/app"
 	"gioui.org/font"
 	"gioui.org/font/opentype"
-	"gioui.org/io/event"
 	"gioui.org/io/key"
 	"gioui.org/op"
 	"gioui.org/text"
@@ -21,7 +20,6 @@ import (
 
 //go:embed Assets/fonts/DaddyTimeMonoNerdFontMono-Regular.ttf
 var nerdFontData []byte
-var keyInputTag struct{}
 
 func main() {
 	go func() {
@@ -57,6 +55,8 @@ func main() {
 			helpers.GetTimeStatus(store)
 			helpers.GetBluetoothStatus(store)
 			helpers.GetNetworkStatus(store)
+			helpers.GetBrightnessStatus(store)
+			helpers.GetVolumeStatus(store)
 
 			// Trigger redraw
 			w.Invalidate()
@@ -72,6 +72,7 @@ func main() {
 
 func start(w *app.Window, th *material.Theme, store *state.UIState) error {
 	var ops op.Ops
+
 	for {
 		e := w.Event()
 		switch evt := e.(type) {
@@ -80,10 +81,7 @@ func start(w *app.Window, th *material.Theme, store *state.UIState) error {
 		case app.FrameEvent:
 			gtx := app.NewContext(&ops, evt)
 
-			// Register interest in key events
-			event.Op(gtx.Ops, keyInputTag)
-
-			// Handle key input
+			// Handle global key events (like Escape to exit)
 			for {
 				ev, ok := gtx.Event(key.Filter{Name: key.NameEscape})
 				if !ok {
@@ -94,7 +92,7 @@ func start(w *app.Window, th *material.Theme, store *state.UIState) error {
 				}
 			}
 
-			// Draw UI
+			// Draw UI - this will handle individual widget events
 			ui.RootLayout(gtx, th, store, w)
 			evt.Frame(gtx.Ops)
 		}

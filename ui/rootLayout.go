@@ -43,7 +43,14 @@ func RootLayout(gtx layout.Context, th *material.Theme, store *state.UIState, w 
 		}),
 
 		layout.Flexed(2, func(gtx layout.Context) layout.Dimensions {
-			return layout.Spacer{}.Layout(gtx)
+			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				return layout.Inset{
+					Top:    unit.Dp(10),
+					Bottom: unit.Dp(15),
+				}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+					return sections.ShortCutSection(gtx, th, store, w)
+				})
+			})
 		}),
 		layout.Flexed(1.3, func(gtx layout.Context) layout.Dimensions {
 			return margin.Layout(gtx, func(gtx layout.Context) layout.Dimensions {

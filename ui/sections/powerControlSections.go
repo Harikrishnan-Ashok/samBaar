@@ -39,11 +39,9 @@ func PowerControlSection(gtx layout.Context, th *material.Theme, store *state.UI
 
 	if store.PowerOffButton.Clicked(gtx) {
 		runCmd("systemctl", "poweroff")
-		os.Exit(0)
 	}
 	if store.RebootButton.Clicked(gtx) {
 		runCmd("systemctl", "reboot")
-		os.Exit(0)
 	}
 	if store.SuspendButton.Clicked(gtx) {
 		runCmd("systemctl", "suspend")

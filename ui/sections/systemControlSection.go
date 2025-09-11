@@ -53,7 +53,7 @@ func SystemControlSection(gtx layout.Context, th *material.Theme, store *state.U
 							return layout.Inset{
 								Right: unit.Dp(8),
 							}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-								return material.Button(th, &store.VolStatus.Button, "Vo +/-").Layout(gtx)
+								return material.Button(th, &store.VolStatus.Button, " "+store.VolStatus.Value).Layout(gtx)
 							})
 						}),
 						layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
@@ -61,7 +61,7 @@ func SystemControlSection(gtx layout.Context, th *material.Theme, store *state.U
 								Right: unit.Dp(5),
 								Left:  unit.Dp(2),
 							}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-								return material.Button(th, &store.Brightness.Button, "Br +/-").Layout(gtx)
+								return material.Button(th, &store.Brightness.Button, "󰃠 "+store.Brightness.Value).Layout(gtx)
 							})
 						}),
 

@@ -17,6 +17,12 @@ type PowerControlState struct {
 	ToolTipLabel string
 }
 
+type SeachEditor struct {
+	TextBox          widget.Editor
+	LastText         string
+	EditorHasFocused bool
+}
+
 // Status ...  for status and background color
 type Status struct {
 	Button  widget.Clickable
@@ -56,4 +62,5 @@ type UIState struct {
 	PowerControlState
 	StatusControlState
 	UtilsControlState
+	SeachEditor
 }
