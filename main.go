@@ -78,6 +78,7 @@ func start(w *app.Window, th *material.Theme, store *state.UIState) error {
 		switch evt := e.(type) {
 		case app.DestroyEvent:
 			return evt.Err
+
 		case app.FrameEvent:
 			gtx := app.NewContext(&ops, evt)
 
@@ -88,12 +89,18 @@ func start(w *app.Window, th *material.Theme, store *state.UIState) error {
 					break
 				}
 				if ke, ok := ev.(key.Event); ok && ke.State == key.Press {
-					os.Exit(0)
+					store.ShouldQuit = true
 				}
+			}
+
+			// If a command or escape triggered an app shutdown
+			if store.ShouldQuit {
+				return nil // Gracefully exit main loop
 			}
 
 			// Draw UI - this will handle individual widget events
 			ui.RootLayout(gtx, th, store, w)
+
 			evt.Frame(gtx.Ops)
 		}
 	}

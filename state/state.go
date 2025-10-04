@@ -7,6 +7,25 @@ import (
 	"gioui.org/widget"
 )
 
+type Shortcut struct {
+	Token   string `json:"token"`
+	Command string `json:"command"`
+}
+
+type ConfigData struct {
+	Shortcuts []Shortcut `json:"shortcuts"`
+}
+
+type AppConfig struct {
+	Config ConfigData `json:"config"`
+}
+
+var DefaultConfig = AppConfig{
+	Config: ConfigData{
+		Shortcuts: []Shortcut{},
+	},
+}
+
 type PowerControlState struct {
 	PowerOffButton   widget.Clickable
 	RebootButton     widget.Clickable
@@ -63,4 +82,5 @@ type UIState struct {
 	StatusControlState
 	UtilsControlState
 	SeachEditor
+	ShouldQuit bool
 }
