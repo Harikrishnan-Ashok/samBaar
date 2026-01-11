@@ -1,4 +1,3 @@
-
 # sambaar
 
 `sambaar` is a Go-based application designed to run from the command line like a typical Linux utility.
@@ -56,3 +55,8 @@ This compiles and runs the application in one step.
 
 ---
 
+## For Custom ShortCuts or alias
+
+the default config file is read from ~/.config/samBaar/config.json file
+
+refer the example_config.json file for reference

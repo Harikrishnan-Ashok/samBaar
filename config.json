@@ -1,0 +1,44 @@
+{
+    "config": {
+        "shortcuts": [
+            {
+                "token": "config",
+                "command": "setsid kitty -e nvim ~/.config/samBaar/config.json"
+            },
+            {
+                "token": "bt",
+                "command": "setsid kitty -e bluetoothctl"
+            },
+            { "token": "qt", "command": "setsid qutebrowser" },
+            { "token": "f", "command": "setsid firefox" },
+            {
+                "token": "fgo",
+                "command": "qutebrowser window https://www.google.com"
+            },
+            {
+                "token": "fyt",
+                "command": "qutebrowser https://www.youtube.com"
+            },
+            {
+                "token": "fch",
+                "command": "qutebrowser https://chatgpt.com"
+            },
+            {
+                "token": "excali",
+                "command": "qutebrowser https://excalidraw.com/"
+            },
+            {
+                "token": "fpr",
+                "command": "qutebrowser private-window"
+            },
+            { "token": "lf", "command": "setsid kitty -e lf" },
+            { "token": "nvim", "command": "setsid kitty -e nvim" },
+            {
+                "token": "str",
+                "command": "flatpak run --env=QT_QPA_PLATFORM=wayland com.stremio.Stremio"
+            },
+            { "token": "s", "command": "pavucontrol" },
+            { "token": "obs", "command": "setsid obs" }
+        ]
+    }
+}
